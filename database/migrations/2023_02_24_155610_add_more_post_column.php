@@ -6,9 +6,6 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::table('posts', function (Blueprint $table) {
@@ -16,12 +13,10 @@ return new class extends Migration
             $table->datetime('publish_until')->nullable();
             $table->boolean('is_published')->default(false);
             $table->string('category')->nullable();
+            $table->foreignIdFor(\App\Models\User::class)->nullable();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::table('posts', function (Blueprint $table) {
@@ -29,6 +24,7 @@ return new class extends Migration
             $table->removeColumn('publish_until');
             $table->removeColumn('is_published');
             $table->removeColumn('category');
+            $table->removeColumn('user_id');
         });
     }
 };
