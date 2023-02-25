@@ -2,6 +2,8 @@
 
 namespace App\Nova;
 
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Http\Request;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\BelongsToMany;
 use Laravel\Nova\Fields\Boolean;
@@ -37,6 +39,11 @@ class Post extends Resource
         'id', 'title', 'body',
     ];
 
+    public static function indexQuery(NovaRequest $request, $query): Builder
+    {
+        return $query->where('user_id', $request->user()->id);
+    }
+
     /**
      * Get the fields displayed by the resource.
      */
@@ -48,7 +55,7 @@ class Post extends Resource
             Trix::make('Body')->rules('required'),
             DateTime::make('Publish At')->rules('after_or_equal:today')->hideFromIndex(),
             DateTime::make('Publish Until')->rules('after_or_equal:publish_at')->hideFromIndex(),
-            Boolean::make('Is Published'),
+            Boolean::make('Is Published')->canSee(fn(Request $request) => true),
             Select::make('Category')->rules('required')->options([
                 'tutorials' => 'Tutorials',
                 'news' => 'News',
