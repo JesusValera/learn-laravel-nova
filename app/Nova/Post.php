@@ -23,12 +23,15 @@ class Post extends Resource
      */
     public static string $model = \App\Models\Post::class;
 
-    /**
-     * The single value that should be used to represent the resource when being displayed.
-     *
-     * @var string
-     */
-    public static $title = 'title';
+    public function title(): string
+    {
+        return $this->title . ' - ' . $this->category;
+    }
+
+    public function subtitle(): string
+    {
+        return 'Author: ' . $this->user->name;
+    }
 
     /**
      * The columns that should be searched.
