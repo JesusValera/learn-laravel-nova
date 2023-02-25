@@ -6,6 +6,9 @@ use App\Nova\Actions\PublishPost;
 use App\Nova\Filters\PostCategories;
 use App\Nova\Filters\PostPublished;
 use App\Nova\Lenses\MostTags;
+use App\Nova\Metrics\PostCount;
+use App\Nova\Metrics\PostsPerCategory;
+use App\Nova\Metrics\PostsPerDay;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\BelongsTo;
@@ -77,7 +80,11 @@ class Post extends Resource
      */
     public function cards(NovaRequest $request): array
     {
-        return [];
+        return [
+            (new PostCount())->width('1/2'),
+            (new PostsPerCategory())->width('1/2'),
+            (new PostsPerDay())->width('full'),
+        ];
     }
 
     /**
