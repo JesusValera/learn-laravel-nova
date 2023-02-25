@@ -6,12 +6,12 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Laravel\Nova\Actions\Actionable;
 use Laravel\Scout\Searchable;
 
 class Post extends Model
 {
-    use Searchable;
-    use HasFactory;
+    use HasFactory, Searchable, Actionable;
 
     /**
      * The attributes that are mass assignable.
@@ -21,6 +21,7 @@ class Post extends Model
     protected $fillable = [
         'title',
         'body',
+        'is_published',
     ];
 
     /**

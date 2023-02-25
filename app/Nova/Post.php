@@ -2,6 +2,7 @@
 
 namespace App\Nova;
 
+use App\Nova\Actions\PublishPost;
 use App\Nova\Filters\PostCategories;
 use App\Nova\Filters\PostPublished;
 use App\Nova\Lenses\MostTags;
@@ -105,6 +106,10 @@ class Post extends Resource
      */
     public function actions(NovaRequest $request): array
     {
-        return [];
+        return [
+            (new PublishPost())
+                ->canSee(fn(Request $request) => true)
+                ->canRun(fn(Request $request) => true),
+        ];
     }
 }
